@@ -5,7 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"image"
-	"runtime/debug"
+
 	"strconv"
 	"strings"
 	"time"
@@ -23,11 +23,11 @@ var WAclient *whatsmeow.Client
 
 var ScreenShotStack []*image.RGBA
 
-var silence = flag.Bool("silence", false, "Don't ring bell after countdown")
+// var silence = flag.Bool("silence", false, "Don't ring bell after countdown")
 
 //var simple = flag.Bool("simple", false, "Display simple countdown")
 
-var simple = flag.Bool("simple", true, "Display simple countdown")
+// var simple = flag.Bool("simple", true, "Display simple countdown")
 
 /*
 func init() {
@@ -48,13 +48,7 @@ Chimes system bell at the end of the timer, unless -silence is set.
 	flag.Parse()
 } */
 
-func getVersion() string {
-	if i, ok := debug.ReadBuildInfo(); ok {
-		return i.Main.Version
-	}
 
-	return "(unknown)"
-}
 
 func waitDuration(start time.Time) (finish time.Time, err error) {
 	if flag.NArg() > 1 {

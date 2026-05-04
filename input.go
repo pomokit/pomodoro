@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"context"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -65,7 +66,7 @@ func InputWAGroup() (wag string) {
 		fmt.Println("Masukkan WhatsApp Group ID tujuan pelaporan.")
 		fmt.Println("Tips: Ketik 'list' lalu Enter untuk melihat daftar Grup WhatsApp beserta ID-nya.")
 		fmt.Print("Input (ID Group / 'list'): ")
-		
+
 		fmt.Scanln(&wag)
 		wag = strings.TrimSpace(wag)
 
@@ -74,7 +75,7 @@ func InputWAGroup() (wag string) {
 				fmt.Println("WhatsApp belum terhubung.")
 				continue
 			}
-			groups, err := WAclient.GetJoinedGroups()
+			groups, err := WAclient.GetJoinedGroups(context.Background())
 			if err != nil {
 				fmt.Println("Gagal mengambil daftar grup:", err)
 				continue
@@ -83,7 +84,7 @@ func InputWAGroup() (wag string) {
 			for _, group := range groups {
 				fmt.Printf("Nama Grup : %s\nID Grup   : %s\n\n", group.Name, group.JID.User)
 			}
-			fmt.Println("----------------------------------\n")
+			fmt.Println("----------------------------------")
 		} else if wag != "" {
 			break
 		}
