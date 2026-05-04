@@ -177,11 +177,12 @@ func SimpleBreakCountdown(target time.Time, formatter func(time.Duration) string
 func GetSetTime(status string) (finish time.Time, formatter func(time.Duration) string, err error) {
 	nokiaTune()
 	start := time.Now()
-	if status == "task" {
+	switch status {
+	case "task":
 		finish, err = waitDuration(start)
-	} else if status == "break" {
+	case "break":
 		finish, err = waitBreakDuration(start)
-	} else {
+	default:
 		finish, err = waitDuration(start)
 	}
 
@@ -200,16 +201,17 @@ func GetSetTime(status string) (finish time.Time, formatter func(time.Duration) 
 	case wait >= time.Minute:
 		formatter = formatMinutes
 	}
-	if status == "task" {
+	switch status {
+	case "task":
 		fmt.Println("Start Melakukan Task 25 menit")
 		beeep.Notify("Pomokit Info", "Start Melakukan Task 25 menit", "information.png")
 		simpleCountdown(finish, formatter)
-	} else if status == "break" {
+	case "break":
 		fmt.Println("STOP!!!! Break Dulu 5 menit")
 		beeep.Alert("Pomokit Info", "STOP!!!! Break Dulu 5 menit", "warning.png")
 		X, Y := robotgo.GetMousePos()
 		SimpleBreakCountdown(finish, formatter, X, Y)
-	} else {
+	default:
 		fmt.Println("STOP!!!! Istirahat Panjang Dulu 25 menit")
 		beeep.Alert("Pomokit Info", "STOP!!!! Istirahat Panjang Dulu 25 menit", "warning.png")
 		X, Y := robotgo.GetMousePos()
