@@ -22,11 +22,12 @@ func main() {
 		go DownloadFile("warning.png", WarningImageURL)
 	}
 
+	WhatsApp()
+
 	wag := InputWAGroup()
 	InputURLGithub()
 	milestone := InputMilestone()
 
-	WhatsApp()
 	SendNotifTo(wag, milestone)
 
 	GetSetTime("task")

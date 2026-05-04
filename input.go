@@ -59,9 +59,35 @@ func ValidUrl(urllink string) bool {
 }
 
 func InputWAGroup() (wag string) {
-	beeep.Alert("Pomokit Info", "Please Input Your WhatsApp Group ID with keyword : Myika minta id grup : ", "information.png")
-	fmt.Println("Pomokit " + Version + " \n\nPlease Input Your WhatsApp Group ID with keyword : Myika minta id grup : ")
-	fmt.Scanln(&wag)
+	for {
+		beeep.Alert("Pomokit Info", "Masukkan WhatsApp Group ID (atau ketik 'list' untuk melihat daftar grup)", "information.png")
+		fmt.Println("Pomokit " + Version)
+		fmt.Println("Masukkan WhatsApp Group ID tujuan pelaporan.")
+		fmt.Println("Tips: Ketik 'list' lalu Enter untuk melihat daftar Grup WhatsApp beserta ID-nya.")
+		fmt.Print("Input (ID Group / 'list'): ")
+		
+		fmt.Scanln(&wag)
+		wag = strings.TrimSpace(wag)
+
+		if strings.ToLower(wag) == "list" {
+			if WAclient == nil {
+				fmt.Println("WhatsApp belum terhubung.")
+				continue
+			}
+			groups, err := WAclient.GetJoinedGroups()
+			if err != nil {
+				fmt.Println("Gagal mengambil daftar grup:", err)
+				continue
+			}
+			fmt.Println("\n--- Daftar WhatsApp Group Anda ---")
+			for _, group := range groups {
+				fmt.Printf("Nama Grup : %s\nID Grup   : %s\n\n", group.Name, group.JID.User)
+			}
+			fmt.Println("----------------------------------\n")
+		} else if wag != "" {
+			break
+		}
+	}
 	return
 }
 
