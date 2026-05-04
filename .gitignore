@@ -3,6 +3,8 @@
 *.a
 *.so
 *.db
+*.db-shm
+*.db-wal
 config.go
 pomodoroLinux64
 pomodoro

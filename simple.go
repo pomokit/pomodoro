@@ -79,7 +79,7 @@ func checkUserActivity() bool {
 	return true
 }
 
-func simpleCountdown(target time.Time, formatter func(time.Duration) string) {
+func simpleCountdown(target time.Time, formatter func(time.Duration) string, titlePrefix string) {
 	var takescreenshoot bool
 	timeLeft := -time.Since(target)
 	minutetake := rand.Int63n(int64(timeLeft.Minutes()))
@@ -146,6 +146,7 @@ func simpleCountdown(target time.Time, formatter func(time.Duration) string) {
 
 		if timeLeft < 0 {
 			fmt.Print("Countdown: ", formatter(0), "   \r")
+			setConsoleTitle("Pomokit")
 			return
 		}
 
@@ -156,20 +157,25 @@ func simpleCountdown(target time.Time, formatter func(time.Duration) string) {
 		}
 
 		// Display countdown
-		fmt.Fprint(os.Stdout, "Countdown: ", formatter(timeLeft), "   \r")
+		formattedTime := formatter(timeLeft)
+		fmt.Fprint(os.Stdout, "Countdown: ", formattedTime, "   \r")
+		setConsoleTitle(titlePrefix + ": " + formattedTime)
 		os.Stdout.Sync()
 	}
 }
 
-func SimpleBreakCountdown(target time.Time, formatter func(time.Duration) string, X, Y int) {
+func SimpleBreakCountdown(target time.Time, formatter func(time.Duration) string, X, Y int, titlePrefix string) {
 	for range time.Tick(100 * time.Millisecond) {
 		timeLeft := -time.Since(target)
 		if timeLeft < 0 {
 			fmt.Print("Countdown: ", formatter(0), "   \r")
+			setConsoleTitle("Pomokit")
 			return
 		}
 		robotgo.DragMouse(X, Y)
-		fmt.Fprint(os.Stdout, "Countdown: ", formatter(timeLeft), "   \r")
+		formattedTime := formatter(timeLeft)
+		fmt.Fprint(os.Stdout, "Countdown: ", formattedTime, "   \r")
+		setConsoleTitle(titlePrefix + ": " + formattedTime)
 		os.Stdout.Sync()
 	}
 }
@@ -205,17 +211,17 @@ func GetSetTime(status string) (finish time.Time, formatter func(time.Duration) 
 	case "task":
 		fmt.Println("Start Melakukan Task 25 menit")
 		beeep.Notify("Pomokit Info", "Start Melakukan Task 25 menit", "information.png")
-		simpleCountdown(finish, formatter)
+		simpleCountdown(finish, formatter, "Task")
 	case "break":
 		fmt.Println("STOP!!!! Break Dulu 5 menit")
 		beeep.Alert("Pomokit Info", "STOP!!!! Break Dulu 5 menit", "warning.png")
 		X, Y := robotgo.GetMousePos()
-		SimpleBreakCountdown(finish, formatter, X, Y)
+		SimpleBreakCountdown(finish, formatter, X, Y, "Break")
 	default:
 		fmt.Println("STOP!!!! Istirahat Panjang Dulu 25 menit")
 		beeep.Alert("Pomokit Info", "STOP!!!! Istirahat Panjang Dulu 25 menit", "warning.png")
 		X, Y := robotgo.GetMousePos()
-		SimpleBreakCountdown(finish, formatter, X, Y)
+		SimpleBreakCountdown(finish, formatter, X, Y, "Long Break")
 	}
 	return
 }
