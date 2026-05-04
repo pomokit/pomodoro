@@ -57,11 +57,16 @@ Untuk mengembangkan atau memodifikasi kode aplikasi ini:
 1. Pastikan Golang sudah terinstal di sistem Anda.
 2. Clone repositori ini ke komputer lokal.
 3. Jalankan `go mod tidy` di terminal untuk mengunduh dan merapikan semua *dependencies* (termasuk modul whatsmeow untuk WhatsApp).
-4. Jalankan aplikasi untuk diuji coba menggunakan perintah `go run .`
-5. Untuk membuat file binary (*build*), jalankan `go build -o pomodoro .` (atau `pomodoro.exe` di Windows).
+4. Untuk menguji coba aplikasi secara lokal (dengan menyuntikkan *PrivateKey* pengaman), gunakan perintah:
+   `go run -ldflags="-X 'main.PrivateKey=KUNCI_RAHASIA_ANDA'" .`
+   *(Jika Anda tidak memasukkan ldflags, nilai PrivateKey akan otomatis menjadi "null")*
+5. Untuk membuat file binary (*build*), jalankan perintah berikut:
+   `go build -ldflags="-X 'main.PrivateKey=KUNCI_RAHASIA_ANDA'" -o pomodoro.exe .`
 
 ### Rilis Versi (Release)
-Untuk merilis versi baru, Anda bisa menggunakan perintah *cross-compilation* dan melakukan *tagging* di Git. Berikut adalah contoh perintah rilis menggunakan PowerShell:
+Aplikasi ini memanfaatkan metode injeksi variabel `PrivateKey` pada saat proses kompilasi (menggunakan `-ldflags`). Dengan ini, kunci rahasia Anda tidak akan pernah tertulis di kode sumber (Github) namun akan tertanam aman di dalam eksekusi aplikasi.
+
+Untuk merilis versi baru, Anda bisa menggunakan perintah *cross-compilation*, melakukan kompilasi dengan kunci asli, lalu melakukan *tagging* di Git. Berikut adalah contoh perintah rilis menggunakan PowerShell:
 
 ```sh
 $env:GOOS = 'linux'
@@ -70,6 +75,10 @@ $env:GOOS = 'darwin'
 $env:CGO_ENABLED = '1'
 
 go mod tidy
+
+# (Opsional) Build executable dengan kunci aslinya
+# go build -ldflags="-X 'main.PrivateKey=KUNCI_RAHASIA_ASLI_ANDA_DISINI'" -o pomodoro.exe .
+
 git tag                                 # melihat versi saat ini
 git tag v0.0.3                          # menetapkan versi tag baru
 git push origin --tags                  # push tag ke repository untuk trigger rilis
