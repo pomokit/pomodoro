@@ -15,7 +15,7 @@ Aplikasi ini berjalan secara interaktif melalui *command line* (terminal). Berik
 
 1. Jalankan file *executable* aplikasi (contoh: `./pomodoro` atau `pomodoro.exe`).
 2. *(Hanya untuk penggunaan pertama kali)* Akan muncul QR Code WhatsApp di terminal. Lakukan pemindaian (scan) menggunakan aplikasi WhatsApp di ponsel Anda untuk menghubungkan akun.
-3. Masukkan ID WhatsApp Group tujuan untuk pelaporan. **(Tips: Ketik `list` lalu Enter untuk menampilkan semua Grup WhatsApp Anda beserta ID-nya)**.
+3. Masukkan ID WhatsApp Group tujuan untuk pelaporan, contoh: 120363422372427149. **(Tips: Ketik `list` lalu Enter untuk menampilkan semua Grup WhatsApp Anda beserta ID-nya)**.
 4. Masukkan URL Github terkait dengan tugas yang sedang dikerjakan.
 5. Masukkan nama/deskripsi Milestone dari tugas Anda.
 6. Timer akan mulai berjalan secara otomatis.
