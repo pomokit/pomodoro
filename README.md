@@ -80,6 +80,6 @@ go mod tidy
 # go build -ldflags="-X 'main.PrivateKey=KUNCI_RAHASIA_ASLI_ANDA_DISINI'" -o pomodoro.exe .
 
 git tag                                 # melihat versi saat ini
-git tag v0.0.3                          # menetapkan versi tag baru
-git push origin --tags                  # push tag ke repository untuk trigger rilis
+git tag v0.2.7                          # menetapkan versi tag baru
+git push origin v0.2.7                  # push tag ke repository
 ```
